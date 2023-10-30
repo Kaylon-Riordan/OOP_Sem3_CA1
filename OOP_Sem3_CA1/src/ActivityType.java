@@ -1,5 +1,5 @@
 enum ActivityType {
-    Running,
-    Swimming,
-    Cycling;
+    RUNNING,
+    SWIMMING,
+    CYCLING;
 }

@@ -8,8 +8,8 @@ public class Activity {
     private float duration, distance, AvgHeartRate;
 
     public Activity(String activityType, String date, String duration, String distance, String avgHeartRate) {
-        ActivityType.valueOf(activityType);
-        this.date = LocalDate.parse(date, DateTimeFormatter.ofPattern("dd-MM-yyyy HH:mm:ss.S"));
+        this.activityType = ActivityType.valueOf(activityType.toUpperCase());
+        this.date = LocalDate.parse(date, DateTimeFormatter.ofPattern("dd/MM/yyyy"));
         this.duration = Float.parseFloat(duration);
         this.distance = Float.parseFloat(distance);
         this.AvgHeartRate = Float.parseFloat(avgHeartRate);
