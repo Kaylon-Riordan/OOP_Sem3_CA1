@@ -46,4 +46,10 @@ public class Activity {
     public void setAvgHeartRate(float avgHeartRate) {
         AvgHeartRate = avgHeartRate;
     }
+
+    @Override
+    public String toString() {
+        return "Activity [activityType=" + activityType + ", date=" + date + ", duration=" + duration + ", distance="
+                + distance + ", AvgHeartRate=" + AvgHeartRate + "]";
+    }
 }

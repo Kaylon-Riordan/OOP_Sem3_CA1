@@ -11,7 +11,7 @@ public class FileScraper {
     private static String Delimiter = ",";
 
     // List of activities generated from scraping.
-    private ArrayList<Activity> activities;
+    private ArrayList<Activity> activities = new ArrayList<Activity>();
 
     // Code relating to taking in data.
     public void ScrapeData(String fileName) 
@@ -29,7 +29,8 @@ public class FileScraper {
     
     // Construct an activity object from given row.
     private Activity constructActivity(String[] row) {
-        return new Activity(row[0], row[1], row[2], row[3], row[4]);
+        Activity activity = new Activity(row[0], row[1], row[2], row[3], row[4]);
+        return activity;
     }
 
     // Read each row of CSV and return array list of strings delimited by columns.
