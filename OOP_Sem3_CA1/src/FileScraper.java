@@ -1,8 +1,9 @@
 import java.io.BufferedReader;
 import java.io.IOException;
-import java.nio.file.Files;
-import java.nio.file.Paths;
+//import java.nio.file.Files;
+//import java.nio.file.Paths;
 import java.util.ArrayList;
+import java.io.FileReader;
 
 public class FileScraper {
     
@@ -15,7 +16,8 @@ public class FileScraper {
     // Code relating to taking in data.
     public void ScrapeData(String fileName) 
     {
-        String currentDirectory = getCsvDirectory(fileName);
+        //String currentDirectory = getCsvDirectory(fileName);
+        String currentDirectory = "C:/Users/Ben/OneDrive - Dundalk Institute of Technology/College/Semester 3/Programming/Collaborative Project/OOP_Sem3_CA1/OOP_Sem3_CA1/src/activity_data_10.csv";
         BufferedReader br = initReader(currentDirectory);
         ArrayList<String[]> rows = iterateRows(br);
 
@@ -54,6 +56,13 @@ public class FileScraper {
             while ((currentLine = br.readLine()) != null) 
             {
                 columnData = currentLine.split(Delimiter);
+                
+                // Remove excess spaces.
+                for(int i = 0; i < columnData.length; ++i) 
+                {
+                    columnData[i] = removeSpaces(columnData[i]);
+                }
+
                 rows.add(columnData);
             }
         } 
@@ -68,11 +77,10 @@ public class FileScraper {
     // Initilise reader given directory of csv.
     private BufferedReader initReader(String directory) 
     {
-        System.out.println(System.getProperty("user.dir"));
-
         // https://attacomsian.com/blog/java-read-parse-csv-file
+        // https://stackoverflow.com/questions/16104616/using-bufferedreader-to-read-text-file
         try {
-            return Files.newBufferedReader(Paths.get(directory));
+            return new BufferedReader(new FileReader(directory));
         } catch (IOException e) { // Catch any IOexception. Required to function.
             e.printStackTrace();
             return null;
@@ -83,12 +91,38 @@ public class FileScraper {
     // CSV is assumed to be in same directory of script.
     private String getCsvDirectory(String fileName) 
     {
+        System.out.println(System.getProperty("user.dir"));
+        String directory = System.getProperty("user.dir") + fileName + ".csv";
+        directory = directory.replace('\\', '/');
         // https://stackoverflow.com/questions/4871051/how-to-get-the-current-working-directory-in-java
         return System.getProperty("user.dir") + fileName + ".csv";
     }
 
-    public ArrayList<Activity> getActivities() {
+    public ArrayList<Activity> getActivities() 
+    {
         return this.activities;
+    }
+
+    // The CSV leaves spaces behind. 
+    private String removeSpaces(String input) 
+    {
+        // Contains 2 spaces
+        if(input.contains("  "))
+        {
+            // Begin on 2
+            return input.substring(2);
+        }
+        // Contains 1 space
+        else if (input.contains(" ")) 
+        {
+            // Begin on 1
+            return input.substring(1);
+        }
+        // Does not contain spaces. Return as is.
+        else 
+        {
+            return input;
+        }
     }
 
     // https://attacomsian.com/blog/java-read-parse-csv-file
