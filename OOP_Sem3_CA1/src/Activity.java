@@ -1,11 +1,15 @@
-public class Activity {
-    public Activity(String s0, String s1, String s2, String s3, String s4) {
+import java.time.LocalDate;
+import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
 
-<<<<<<< Updated upstream
-=======
+public class Activity {
+    private ActivityType activityType;
+    private LocalDate date;
+    private float duration, distance, AvgHeartRate;
+
     public Activity(String activityType, String date, String duration, String distance, String avgHeartRate) {
-        ActivityType.valueOf(activityType);
-        //this.date = LocalDate.parse(date.substring(1));
+        this.activityType = ActivityType.valueOf(activityType);
+        this.date = LocalDate.parse(date, DateTimeFormatter.ofPattern("dd/MM/yyyy"));
         this.duration = Float.parseFloat(duration);
         this.distance = Float.parseFloat(distance);
         this.AvgHeartRate = Float.parseFloat(avgHeartRate);
@@ -41,7 +45,6 @@ public class Activity {
     }
     public void setAvgHeartRate(float avgHeartRate) {
         AvgHeartRate = avgHeartRate;
->>>>>>> Stashed changes
     }
 
     @Override
