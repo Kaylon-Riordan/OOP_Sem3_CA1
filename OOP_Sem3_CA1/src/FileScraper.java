@@ -92,7 +92,7 @@ public class FileScraper {
     private String getCsvDirectory(String fileName) 
     {
          // https://stackoverflow.com/questions/4871051/how-to-get-the-current-working-directory-in-java
-        String directory = System.getProperty("user.dir") + "\\OOP_Sem3_CA1\\csv\\" + fileName + ".csv";
+        String directory = System.getProperty("user.dir") + "\\csv\\" + fileName + ".csv";
         return directory;
     }
 
