@@ -16,8 +16,7 @@ public class FileScraper {
     // Code relating to taking in data.
     public void ScrapeData(String fileName) 
     {
-        //String currentDirectory = getCsvDirectory(fileName);
-        String currentDirectory = "C:/Users/Ben/OneDrive - Dundalk Institute of Technology/College/Semester 3/Programming/Collaborative Project/OOP_Sem3_CA1/OOP_Sem3_CA1/src/activity_data_10.csv";
+        String currentDirectory = getCsvDirectory(fileName);
         BufferedReader br = initReader(currentDirectory);
         ArrayList<String[]> rows = iterateRows(br);
 
@@ -92,11 +91,9 @@ public class FileScraper {
     // CSV is assumed to be in same directory of script.
     private String getCsvDirectory(String fileName) 
     {
-        System.out.println(System.getProperty("user.dir"));
-        String directory = System.getProperty("user.dir") + fileName + ".csv";
-        directory = directory.replace('\\', '/');
-        // https://stackoverflow.com/questions/4871051/how-to-get-the-current-working-directory-in-java
-        return System.getProperty("user.dir") + fileName + ".csv";
+         // https://stackoverflow.com/questions/4871051/how-to-get-the-current-working-directory-in-java
+        String directory = System.getProperty("user.dir") + "\\OOP_Sem3_CA1\\csv\\" + fileName + ".csv";
+        return directory;
     }
 
     public ArrayList<Activity> getActivities() 
