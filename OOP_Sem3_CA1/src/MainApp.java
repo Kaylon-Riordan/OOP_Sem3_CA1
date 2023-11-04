@@ -7,11 +7,15 @@ public class MainApp {
         fs.ScrapeData("activity_data_50");
         fs.ScrapeData("activity_data_100");
 
-        ArrayList<Float> durations = new ArrayList<>();
+        ArrayList<Float> distances = new ArrayList<>();
 
         for (Activity activity : fs.getActivities()) {
-            durations.add(activity.getDuration());
+            System.out.println(activity.getIntensity()+"\n"+activity.getCaloriesBurnt());
+            distances.add(activity.getDistance());
         }
-        System.out.println(Formulae.mean());
+
+        distances.forEach((n) -> {
+            System.out.println(n);
+        });
     }
 }
