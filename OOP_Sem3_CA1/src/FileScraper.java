@@ -60,7 +60,7 @@ public class FileScraper {
                 // Remove excess spaces.
                 for(int i = 0; i < columnData.length; ++i) 
                 {
-                    columnData[i] = removeSpaces(columnData[i]);
+                    columnData[i] = columnData[i].trim();
                 }
 
                 rows.add(columnData);
@@ -99,28 +99,6 @@ public class FileScraper {
     public ArrayList<Activity> getActivities() 
     {
         return this.activities;
-    }
-
-    // The CSV leaves spaces behind. 
-    private String removeSpaces(String input) 
-    {
-        // Contains 2 spaces
-        if(input.contains("  "))
-        {
-            // Begin on 2
-            return input.substring(2);
-        }
-        // Contains 1 space
-        else if (input.contains(" ")) 
-        {
-            // Begin on 1
-            return input.substring(1);
-        }
-        // Does not contain spaces. Return as is.
-        else 
-        {
-            return input;
-        }
     }
 
     // https://attacomsian.com/blog/java-read-parse-csv-file
