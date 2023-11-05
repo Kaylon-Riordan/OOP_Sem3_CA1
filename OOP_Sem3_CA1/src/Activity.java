@@ -50,11 +50,7 @@ public class Activity {
 
     // https://www.w3schools.blog/comparable-comparator-java
     // https://www.java67.com/2019/06/top-5-sorting-examples-of-comparator-and-comparable-in-java.html#:~:text=For%20example%2C%20by%20using%20the,more%20realistic%20but%20complex%20ordering.
-    // https://www.geeksforgeeks.org/collections-reverseorder-java-examples/
     // Comparators
-    
-    // By Lambda
-    // Comparator<Activity> byType = (a1, a2) -> a1.getActivityType().compareTo(a2.getActivityType());
     
     // By method reference
     // https://www.java67.com/2019/06/top-5-sorting-examples-of-comparator-and-comparable-in-java.html#:~:text=For%20example%2C%20by%20using%20the,more%20realistic%20but%20complex%20ordering.
