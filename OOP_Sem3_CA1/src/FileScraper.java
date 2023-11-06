@@ -4,14 +4,15 @@ import java.io.IOException;
 //import java.nio.file.Paths;
 import java.util.ArrayList;
 import java.io.FileReader;
+import java.util.HashSet;
 
 public class FileScraper {
     
     // Symbol which separates entries in CSV. Same for all FileScrapers.
     private static String Delimiter = ",";
 
-    // List of activities generated from scraping.
-    private ArrayList<Activity> activities = new ArrayList<Activity>();
+    // List of activities generated from scraping. Same for all FileScrapers.
+    private static HashSet<Activity> activities = new HashSet<Activity>();
 
     // Code relating to taking in data.
     public void ScrapeData(String fileName) 
@@ -96,9 +97,10 @@ public class FileScraper {
         return directory;
     }
 
+    // Returns as ArrayList so it may be sorted.
     public ArrayList<Activity> getActivities() 
     {
-        return this.activities;
+        return new ArrayList<>(activities);
     }
 
     // https://attacomsian.com/blog/java-read-parse-csv-file

@@ -1,20 +1,19 @@
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
+import java.util.Comparator;
 
 public class Activity {
     private ActivityType activityType;
     private LocalDate date;
-    private float duration;
-    private float distance;
-    private float AvgHeartRate;
+    private float duration, distance, avgHeartRate;
 
     public Activity(String activityType, String date, String duration, String distance, String avgHeartRate) {
         this.activityType = ActivityType.valueOf(activityType);
         this.date = LocalDate.parse(date, DateTimeFormatter.ofPattern("dd/MM/yyyy"));
         this.duration = Float.parseFloat(duration);
         this.distance = Float.parseFloat(distance);
-        this.AvgHeartRate = Float.parseFloat(avgHeartRate);
+        this.avgHeartRate = Float.parseFloat(avgHeartRate);
     }
 
     public ActivityType getActivityType() {
@@ -30,7 +29,7 @@ public class Activity {
         return distance;
     }
     public float getAvgHeartRate() {
-        return AvgHeartRate;
+        return avgHeartRate;
     }
 
     public void setActivityType(ActivityType activityType) {
@@ -46,7 +45,7 @@ public class Activity {
         this.distance = distance;
     }
     public void setAvgHeartRate(float avgHeartRate) {
-        AvgHeartRate = avgHeartRate;
+        this.avgHeartRate = avgHeartRate;
     }
 
     public Intensity getIntensity() {
@@ -107,9 +106,15 @@ public class Activity {
         }
     }
 
-    @Override
-    public String toString() {
-        return "Activity [activityType=" + activityType + ", date=" + date + ", duration=" + duration + ", distance="
-                + distance + ", AvgHeartRate=" + AvgHeartRate + "]";
-    }
+    // https://www.w3schools.blog/comparable-comparator-java
+    // https://www.java67.com/2019/06/top-5-sorting-examples-of-comparator-and-comparable-in-java.html#:~:text=For%20example%2C%20by%20using%20the,more%20realistic%20but%20complex%20ordering.
+    // Comparators
+    
+    // By method reference
+    // https://www.java67.com/2019/06/top-5-sorting-examples-of-comparator-and-comparable-in-java.html#:~:text=For%20example%2C%20by%20using%20the,more%20realistic%20but%20complex%20ordering.
+    public static Comparator<Activity> byType = Comparator.comparing(Activity::getActivityType);
+    public static Comparator<Activity> byDate = Comparator.comparing(Activity::getDate);
+    public static Comparator<Activity> byDuration = Comparator.comparing(Activity::getDuration);
+    public static Comparator<Activity> byDistance = Comparator.comparing(Activity::getDistance);
+    // Awaiting formulae implementation. public static Comparator<Activity> byCaloriesBurnt = Comparator.comparing(Activity::calculateCaloriesBurnt);
 }
