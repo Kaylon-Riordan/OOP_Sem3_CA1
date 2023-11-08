@@ -37,7 +37,7 @@ public class Activity implements Comparable<Activity> {
                 return calculateIntensity(4f, 8f, 12f, 16f);
             case Swimming:
                 return calculateIntensity(0.5f, 1.25f, 2f, 2.75f);
-            default:
+            default: // Must be cycling
                 return calculateIntensity(8f, 16f, 25f, 33f);
         }
     }
@@ -112,7 +112,7 @@ public class Activity implements Comparable<Activity> {
     // Sort by activity type by default
     @Override
     public int compareTo(Activity activity) {
-        return getActivityType().toString().compareTo(getActivityType().toString());
+        return getDate().compareTo(activity.getDate());
     }
 
     // https://www.w3schools.blog/comparable-comparator-java

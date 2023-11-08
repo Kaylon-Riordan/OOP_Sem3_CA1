@@ -22,7 +22,8 @@ public class Menu {
         3) Sort Activities by Category
         4) Filter Activities
         5) View Overall Performance
-        6) Exit
+        6) Search by Date
+        7) Exit
         """);
         
         menuText.put("GetData", 
@@ -88,17 +89,28 @@ public class Menu {
         """
         Here is your average performance values:        
         """);
+
+        menuText.put("Search",
+        """
+        Type a date in the format yyyy-mm-dd
+        E.g 11th of January 2020 would be 2020-01-11
+
+        Type 'cancel' to exit.
+        """);
     }
 
-    public static void display(String menuName, InputType inputType) {
+    private static void printMenu(String menuName) {
+        System.out.println(menuName);
+        System.out.println("-----");
+        System.out.println(menuText.get(menuName));
+    }
+
+    public static void takeInputAndDisplay(String menuName, InputType inputType) {
 
         switch (inputType) {
             case CHOICE:
                 do {
-                    System.out.println(menuName);
-                    System.out.println("-----");
-                    System.out.println(menuText.get(menuName));
-
+                    printMenu(menuName);
                     takeChoice();
                 } while (choice < 1);
 
@@ -109,9 +121,7 @@ public class Menu {
 
             case TEXT:
                 do {
-                    System.out.println(menuName);
-                    System.out.println("-----");
-                    System.out.println(menuText.get(menuName));
+                    printMenu(menuName);
                     takeText();
                 } while (input.equals(""));
 
@@ -127,10 +137,8 @@ public class Menu {
 
             case FLOAT:
                 do {
-                        System.out.println(menuName);
-                        System.out.println("-----");
-                        System.out.println(menuText.get(menuName));
-                        takeFloat();
+                    printMenu(menuName);
+                    takeFloat();
                 } while (inputFloat < 0);
 
                 // Convert float to string to agree with method.
@@ -140,9 +148,7 @@ public class Menu {
 
 
             case NONE:
-                System.out.println(menuName);
-                System.out.println("-----");
-                System.out.println(menuText.get(menuName));
+                printMenu(menuName);
                 MainApp.performAction(menuName, input);
                 System.out.println("\n");
                 break;
@@ -173,6 +179,7 @@ public class Menu {
 
             // Convert string input to int
             choice = Integer.parseInt(kb.nextLine());
+            System.out.println("");// New line
         }
         catch(NumberFormatException e) {
             System.out.println("Invalid input! Try again. Make sure your input is an integer.\n");
@@ -185,6 +192,7 @@ public class Menu {
             System.out.print("Make a float input: ");
 
             input = kb.nextLine();
+            System.out.println("");// New line
 
             // Convert string input to int
             inputFloat = Float.parseFloat(input);
@@ -197,5 +205,6 @@ public class Menu {
     private static void takeText() {
         System.out.print("Make a text input: ");
         input = kb.nextLine();
+        System.out.println("");// New line
     }
 }

@@ -1,11 +1,15 @@
 import java.util.ArrayList;
 import java.util.Collections;
 
+// For searching
+import java.time.LocalDate;
+import java.time.format.DateTimeFormatter;
+
 public class MainApp {
     static ArrayList<Activity> activities;
     static FilePrinter fp = new FilePrinter();
     static FileScraper fs = new FileScraper();
-    private static Filter filter = (a) -> true; // No filter is defined.
+    static Filter filter = (a) -> true; // No filter is defined.
     static Formulae formulae = new Formulae();
     static boolean active = true;
 
@@ -13,23 +17,15 @@ public class MainApp {
     public static void main(String[] args) {
         Menu.initMenus();
         
-        Menu.display("GetData", Menu.InputType.TEXT);
-        while(active)
-        Menu.display("Navigation", Menu.InputType.CHOICE);
-    }
+        // Default data
+        fs.ScrapeData("activity_data_10");
+        activities = fs.getActivities();
 
-    private static void viewTable() {
-        System.out.println(FilePrinter.Headings);
-        for (Activity activity : activities) {
-            // If the activity meets the filter criteria
-            if(filter.filter(activity))
-            fp.tabulateActivity(activity);
-        }
-        System.out.println("\n");
+        while(active)
+        Menu.takeInputAndDisplay("Navigation", Menu.InputType.CHOICE);
     }
 
     public static void performAction(String menuName, String input) {
-
         // Used in enum menus
         String inputEnumFormatted;
 
@@ -40,12 +36,13 @@ public class MainApp {
             // ------------------------
             case "Navigation":
                 switch (Integer.parseInt(input)) {
-                    case 1 -> Menu.display("GetData", Menu.InputType.TEXT);
-                    case 2 -> viewTable();
-                    case 3 -> Menu.display("SortData", Menu.InputType.CHOICE);
-                    case 4 -> Menu.display("FilterData", Menu.InputType.CHOICE);
-                    case 5 -> Menu.display("OverallPerformance", Menu.InputType.NONE);
-                    case 6 -> active = false;
+                    case 1 -> Menu.takeInputAndDisplay("GetData", Menu.InputType.TEXT);
+                    case 2 -> fp.tabulateActivity(activities);
+                    case 3 -> Menu.takeInputAndDisplay("SortData", Menu.InputType.CHOICE);
+                    case 4 -> Menu.takeInputAndDisplay("FilterData", Menu.InputType.CHOICE);
+                    case 5 -> Menu.takeInputAndDisplay("OverallPerformance", Menu.InputType.NONE);
+                    case 6 -> Menu.takeInputAndDisplay("Search", Menu.InputType.TEXT);
+                    case 7 -> active = false;
                 }
                 break;
             
@@ -58,14 +55,14 @@ public class MainApp {
             case "SortData":
                 switch(Integer.parseInt(input)) {
                     case 1 -> {Collections.sort(activities, Activity.byType); break;}
-                    case 2 -> {Collections.sort(activities, Activity.byDate); break;}
+                    case 2 -> {Collections.sort(activities); break;}
                     case 3 -> {Collections.sort(activities, Activity.byDuration); break;}
                     case 4 -> {Collections.sort(activities, Activity.byDistance); break;}
                     case 5 -> {Collections.sort(activities, Activity.byCaloriesBurnt); break;}
                     default -> {break outerswitch;}
                 }
 
-                Menu.display("SortOrder", Menu.InputType.CHOICE);
+                Menu.takeInputAndDisplay("SortOrder", Menu.InputType.CHOICE);
 
                 break;
             
@@ -79,10 +76,10 @@ public class MainApp {
                 break;
             case "FilterData":
                 switch (Integer.parseInt(input)) {
-                    case 1 -> Menu.display("TypeFilter", Menu.InputType.TEXT);
-                    case 2 -> Menu.display("DistanceFilter", Menu.InputType.FLOAT);
-                    case 3 -> Menu.display("EnergyFilter", Menu.InputType.TEXT);
-                    case 4 -> Menu.display("DurationFilter", Menu.InputType.FLOAT);
+                    case 1 -> Menu.takeInputAndDisplay("TypeFilter", Menu.InputType.TEXT);
+                    case 2 -> Menu.takeInputAndDisplay("DistanceFilter", Menu.InputType.FLOAT);
+                    case 3 -> Menu.takeInputAndDisplay("EnergyFilter", Menu.InputType.TEXT);
+                    case 4 -> Menu.takeInputAndDisplay("DurationFilter", Menu.InputType.FLOAT);
                     case 5 -> filter = (a) -> true;
                 }
                 break;
@@ -104,6 +101,34 @@ public class MainApp {
                 System.out.println("Your distance average is: " + formulae.getMean(activities, "distance"));
                 System.out.println("Your calories burnt average is: " + formulae.getMean(activities, "calories"));
                 break;
+            case "Search":
+                printSearchResults(input);
+        }
+    }
+
+    private static void printSearchResults(String dateString) {
+        int index = -1;
+
+        // Get the activities and sort them in their natural order.
+        // Done in a separate variable to preserve user's sorting preferences.
+        ArrayList<Activity> activitiesNaturalOrder = activities;
+        Collections.sort(activitiesNaturalOrder);
+
+        // Get the dates from each activity sorted in naturalorder
+        ArrayList<LocalDate> dates = formulae.getDates(activitiesNaturalOrder);
+        
+        // Get the index of an activity which a matching date.
+        try {
+            index = Collections.binarySearch(dates, LocalDate.parse(dateString, DateTimeFormatter.ofPattern("yyyy-MM-dd")));
+        } catch (Exception e) {
+            System.out.println("Date input was invalid! Please follow the formatting.");
+        }
+
+        if(index > -1) {
+            fp.tabulateActivity(activitiesNaturalOrder.get(index));
+        } else {
+            System.out.println("Entry not found.");
+            System.out.println("\n");
         }
     }
 

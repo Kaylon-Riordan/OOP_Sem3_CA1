@@ -1,5 +1,17 @@
+import java.time.LocalDate;
 import java.util.ArrayList;
 public class Formulae {
+
+    public ArrayList<LocalDate> getDates(ArrayList<Activity> activities) {
+        ArrayList<LocalDate> dates = new ArrayList<>();
+
+        for (Activity activity: activities) {
+            dates.add(activity.getDate());
+        }
+
+        return dates;
+    }
+
     public ArrayList<Float> getNums(ArrayList<Activity> activities, String attribute) {
         
         ArrayList<Float> floats = new ArrayList<>();
