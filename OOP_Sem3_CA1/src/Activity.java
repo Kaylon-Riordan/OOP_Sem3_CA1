@@ -1,9 +1,8 @@
 import java.time.LocalDate;
-import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 import java.util.Comparator;
 
-public class Activity {
+public class Activity implements Comparable<Activity> {
     private ActivityType activityType;
     private LocalDate date;
     private float duration, distance, avgHeartRate;
@@ -32,6 +31,28 @@ public class Activity {
         return avgHeartRate;
     }
 
+    public Intensity getIntensity() {
+        switch(activityType) {
+            case Running:
+                return calculateIntensity(4f, 8f, 12f, 16f);
+            case Swimming:
+                return calculateIntensity(0.5f, 1.25f, 2f, 2.75f);
+            default:
+                return calculateIntensity(8f, 16f, 25f, 33f);
+        }
+    }
+
+    public float getCaloriesBurnt() {
+        switch(activityType) {
+            case Running:
+                return calculateCalories(4.1f, 7.2f, 10f, 15.4f, 20.8f)*duration;
+            case Swimming:
+                return calculateCalories(5f, 6.3f, 7.6f, 8.9f, 10.2f)*duration;
+            default:
+                return calculateCalories(2f, 5f, 7f, 13f, 15f)*duration;
+        }
+    }
+
     public void setActivityType(ActivityType activityType) {
         this.activityType = activityType;
     }
@@ -46,19 +67,6 @@ public class Activity {
     }
     public void setAvgHeartRate(float avgHeartRate) {
         this.avgHeartRate = avgHeartRate;
-    }
-
-    public Intensity getIntensity() {
-        float kmph = distance/(duration/60);
-
-        switch(activityType) {
-            case Running:
-                return calculateIntensity(4f, 8f, 12f, 16f);
-            case Swimming:
-                return calculateIntensity(0.5f, 1.25f, 2f, 2.75f);
-            default:
-                return calculateIntensity(8f, 16f, 25f, 33f);
-        }
     }
 
     private Intensity calculateIntensity(float f1, float f2, float f3, float f4) {
@@ -80,17 +88,6 @@ public class Activity {
         }
     }
 
-    public float getCaloriesBurnt() {
-        switch(activityType) {
-            case Running:
-                return calculateCalories(4.1f, 7.2f, 10f, 15.4f, 20.8f)*duration;
-            case Swimming:
-                return calculateCalories(5f, 6.3f, 7.6f, 8.9f, 10.2f)*duration;
-            default:
-                return calculateCalories(2f, 5f, 7f, 13f, 15f)*duration;
-        }
-    }
-
     private float calculateCalories(float f1, float f2, float f3, float f4, float f5) {
         switch(getIntensity()) {
             case VeryLight:
@@ -106,6 +103,18 @@ public class Activity {
         }
     }
 
+    @Override
+    public String toString() {
+        return "Activity [activityType=" + activityType + ", date=" + date + ", duration=" + duration + ", distance="
+                + distance + ", avgHeartRate=" + avgHeartRate + "]";
+    }
+
+    // Sort by activity type by default
+    @Override
+    public int compareTo(Activity activity) {
+        return getActivityType().toString().compareTo(getActivityType().toString());
+    }
+
     // https://www.w3schools.blog/comparable-comparator-java
     // https://www.java67.com/2019/06/top-5-sorting-examples-of-comparator-and-comparable-in-java.html#:~:text=For%20example%2C%20by%20using%20the,more%20realistic%20but%20complex%20ordering.
     // Comparators
@@ -116,5 +125,6 @@ public class Activity {
     public static Comparator<Activity> byDate = Comparator.comparing(Activity::getDate);
     public static Comparator<Activity> byDuration = Comparator.comparing(Activity::getDuration);
     public static Comparator<Activity> byDistance = Comparator.comparing(Activity::getDistance);
+    public static Comparator<Activity> byCaloriesBurnt = Comparator.comparing(Activity::getCaloriesBurnt);
     // Awaiting formulae implementation. public static Comparator<Activity> byCaloriesBurnt = Comparator.comparing(Activity::calculateCaloriesBurnt);
 }

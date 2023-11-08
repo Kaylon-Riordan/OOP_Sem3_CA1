@@ -1,7 +1,5 @@
 import java.util.Scanner;
-import java.lang.runtime.SwitchBootstraps;
 import java.util.HashMap;
-import java.util.Comparator;
 
 public class Menu {
     private static Scanner kb = new Scanner(System.in);
@@ -24,6 +22,7 @@ public class Menu {
         3) Sort Activities by Category
         4) Filter Activities
         5) View Overall Performance
+        6) Exit
         """);
         
         menuText.put("GetData", 
@@ -40,6 +39,7 @@ public class Menu {
         3) Duration
         4) Distance
         5) Calories Burnt
+        6) Cancel
         """);
 
         menuText.put("SortOrder",
@@ -57,6 +57,7 @@ public class Menu {
         3) Type of Energy Expended
         4) Minimum Duration
         5) Remove Filter
+        6) Cancel
         """);
 
         menuText.put("TypeFilter",
@@ -75,17 +76,22 @@ public class Menu {
         menuText.put("EnergyFilter",
         """
         Write the intensity of the activity.
-        {VeryLight, Light, blah, blah, blah}     
+        {VeryLight, Light, Moderate, Vigorous, VeryVigourous}     
         """);
 
         menuText.put("DurationFilter",
         """
         Write a value for minimum duration.
         """);
+
+        menuText.put("OverallPerformance",
+        """
+        Here is your average performance values:        
+        """);
     }
 
     public static void display(String menuName, InputType inputType) {
-        boolean firstLoop = true;
+
         switch (inputType) {
             case CHOICE:
                 do {
@@ -94,8 +100,6 @@ public class Menu {
                     System.out.println(menuText.get(menuName));
 
                     takeChoice();
-                    if (!firstLoop) System.out.println("Invalid input, try again.\n");
-                    firstLoop = false;
                 } while (choice < 1);
 
                 // Convert choice to string to agree with method.
@@ -139,13 +143,12 @@ public class Menu {
                 System.out.println(menuName);
                 System.out.println("-----");
                 System.out.println(menuText.get(menuName));
+                MainApp.performAction(menuName, input);
                 System.out.println("\n");
                 break;
         }
-
         
-        
-        
+        System.out.println();
     }
 
     // performs action according to user's choice and menu selected.
@@ -172,7 +175,7 @@ public class Menu {
             choice = Integer.parseInt(kb.nextLine());
         }
         catch(NumberFormatException e) {
-            System.out.println("Invalid input! Try again. Make sure your input is an integer.");
+            System.out.println("Invalid input! Try again. Make sure your input is an integer.\n");
         }
     }
 
@@ -187,7 +190,7 @@ public class Menu {
             inputFloat = Float.parseFloat(input);
         }
         catch(NumberFormatException e) {
-            System.out.println("Invalid input! Try again. Make sure your input is a float.");
+            System.out.println("Invalid input! Try again. Make sure your input is a float.\n");
         }
     }
 
