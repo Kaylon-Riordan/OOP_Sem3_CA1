@@ -26,6 +26,7 @@ public class FilePrinter {
         if(!printMany) System.out.println("\n");
     }
 
+    public void tabulateActivity(ArrayList<Activity> activities) {
         for (Activity activity : activities) {
             if(MainApp.filter.filter(activity))
             tabulateActivity(activity, true);
